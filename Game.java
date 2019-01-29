@@ -1,33 +1,40 @@
 
 package guessthetitle;
 
-
-import java.util.Arrays;
 import java.util.Scanner;
 
-
+/**
+ * 
+ * @author eduardo
+ */
 public class Game {
+    // Declare Variables
     private String title;
     private String gameDisplayTitle;
+    private String handleSpacesTitle;
     private int playerPoints;
     private int movieTitleSize;
     private int indexArray[];
     //private char titleGuesses[];
+    // create an instance of the class
     PlayerGuesses playerGuesses = new PlayerGuesses();
     
-    
-
+    // constructor
     public Game() {
         this.playerPoints = 10;
         this.movieTitleSize = 0;
     }// end default constructor
     
     public void startGame() throws Exception{
+        // lets start the game
+        // display the purpose
         System.out.println("The rules are simple, the computer randomly picks a ");
         System.out.println("movie title, and shows you how many letters it's made up of. ");
         System.out.println("Your goal is to try to figure out the movie by guessing one ");
-        System.out.println("letter at a time.\n");
-        // lets start the game
+        System.out.println("letter at a time. You get (10) tries");
+        System.out.println("Ready! Begin!\n");
+        
+        // call function
         getTheRandomTitle();
     }// end startGame
     
@@ -38,6 +45,7 @@ public class Game {
         readfile.parseTheFile();
         // get the random movie title to play the game
         title = readfile.getRandomMovieTitle();
+        // call function
         displayTheGameBoard();
     }// end getTheRandomTitle
     /**
@@ -47,39 +55,38 @@ public class Game {
      */
     private void displayTheGameBoard(){
         // replace the " " in the title with a -
-        String handleSpacesTitle = title.replace(" ", "-");
-        // use REGEX to replaceAll letters to _
+        this.handleSpacesTitle = title.replace(" ", "-");
+        // use REGEX to replaceAll letters to "_"
         gameDisplayTitle = handleSpacesTitle.replaceAll("[A-Za-z]", "_");
-        // Display the gamePlay movie title
+        // Display the gamePlay movie title "_____-_____"
         System.out.println("Movie: "+ gameDisplayTitle + "\n");
         // start the game
         gamePlay();
     }// end displayTheGameBoard
-    
+    /**
+     * If a letter is indeed in the title the computer will reveal its correct
+     * position in the word, if not, you lose a point.
+     * If you lose 10 points, game over!
+     */
     private void gamePlay(){
-    /*
-        If a letter is indeed in the title the computer will reveal its correct 
-        position in the word, if not, you lose a point. 
-        If you lose 10 points, game over!
-
-    */
-        
+        // declare variables
         movieTitleSize = title.length();
+        boolean hasWon = false;
+        // pass the "_____-_____" gameDisplayTitle
         playerGuesses.blankString(gameDisplayTitle);
-        
         // handle if player still has points left
-        if (playerPoints <= 7) {
+        if (playerPoints <= 0) {
             System.out.println("game over");
-            
+            System.exit(0);
         } else {
             // lets take another guess
-            while (playerPoints >= 7){
+            while (playerPoints > 0){
                 System.out.println("Guess a letter:");
                 // get the user input
                 Scanner userInput = new Scanner(System.in);
                 // Gets the first character in the input 
                 char letter = userInput.nextLine().charAt(0);  
-                // check for a match if the letter is NOT blank
+                // check for a isMatch if the letter is NOT blank
                 if(letter != ' '){
                     // declare variable
                     Boolean correctGuess = false;
@@ -87,43 +94,36 @@ public class Game {
                     correctGuess = checkLetter(title, letter);
                    // System.out.println(correctGuess); 
                     if (correctGuess) {
-                        // there is a match 
-                        // need to start storing the letters
-                        // and take another guess
                         // how many times does the letter appear in the title?
-                        // count
                         int numberOfFoundLetters = countTheLetter(title,letter);
-                        // debug
-                       // System.out.println("letter found " + numberOfFoundLetters + " time(s)" );
-                        // what indexes of the string
+                        // find the index in the tile of the letter(s)
                         findIndexLocations(title,letter,numberOfFoundLetters);
-                        //create a array of the found letters / which will be the title
-                        System.out.println("correct");
-                        //System.exit(0);
-                        playerGuesses.correctGuessList(letter);
-                        // here we are going to have to check if the player has 
-                        // guessed all the letters correctly
-                        
+                        // store the correct guesses
+                        playerGuesses.correctGuesses(letter);
                         // Finally, detect when they have guessed all the letters 
                         // and let them know they've won!
+                        hasWon = playerGuesses.checkIfWin(handleSpacesTitle);
+                        if (hasWon){
+                            System.out.println("You have guessed: " + title + " correctly!");
+                            System.exit(0);
+                        } else {
+                            // stay in this loop
+                        }// end if (hasWon) 
                     } else {
-                        // no match
+                        // no isMatch
                         // tell the user to try again
-                        
                         System.out.println("Try again");
                         // and take another guess
-                        // Add the logic to keep track of wrong letters so they 
-                        // don't lose points for guessing the same letter twice.
-                        boolean letterAlreadyGuessed = playerGuesses.incorrectGuessList(letter);
-                        if (letterAlreadyGuessed) {
+                        // check if the letter has already been guessed?
+                        boolean hasGuessed = playerGuesses.incorrectGuesses(letter);
+                        if (hasGuessed) {
                             // do nothing
-                            System.out.println("You have " + playerPoints + " points left");
-                            
+                           // System.out.println("You have " + playerPoints + " points left");
                         } else {
                             // subtact one point 
                             playerPoints--;
-                            System.out.println("You have " + playerPoints + " points left");
-                        }// end if 
+                            //System.out.println("You have " + playerPoints + " points left");
+                        }// end if (hasGuessed)
                     }// end if       
                 } else {
                     // handle blank characters
@@ -135,24 +135,26 @@ public class Game {
         }// end if player still has lives left
     }// end gamePlay
     
-    
+    /**
+     * Checks if the letter is in the title
+     * @param title
+     * @param letter
+     * @return 
+     */
     private boolean checkLetter(String title, char letter){
         // debug
-        System.out.println(title);
-        // does the letter exist in the title?
-        // if it does then the index of that letter will be returned
-        boolean match = false;
+        //System.out.println(title);
+        boolean isMatch = false;
         int indexOfLetter = title.indexOf(letter);// nothng found will return -1
         // the wrong guess
         if (indexOfLetter < 0){
-            match = false;
-            System.out.println("Sorry the letter (" + letter + ") is not in the title");  
+            isMatch = false;
+             
         } else {
-            match = true;
-            // the correct letter has been guessed
-            System.out.println("("+letter + ") is in the title!");  
+            isMatch = true;
+            // the correct letter has been guessed 
         }// end if (indexOfLetter < 0)
-        return match;
+        return isMatch;
     
     }// end checkLetter
     
@@ -167,7 +169,7 @@ public class Game {
      */
     private int countTheLetter (String title, char letter){ 
         int amount = 0; 
-  	    // loop and check thru the title if there is a match
+  	    // loop and check thru the title if there is a isMatch
         for (int index=0; index<title.length(); index++){ 
             // checking character in string 
             if (title.charAt(index) == letter) 
@@ -187,25 +189,21 @@ public class Game {
         // index need an array to store the indexes
         // the size is how many times the letter appears in the string
        
-        indexArray = new int[size];
-        int index = 0;
+        //indexArray = new int[size];
+        //int index = 0;
         int foundIndex = title.indexOf(letter);
         while(foundIndex >= 0) {
             // build the array
-            indexArray[index] = foundIndex;
-            // send the index and the letter to the hashmap to build 
-            // the area to collect the correct letters and the letter
-            // index location
+            //indexArray[index] = foundIndex;
+            // send the index and the letter to the hashmap
             playerGuesses.buildTheCorrectTitle(foundIndex, letter);
            
     
             // move on to the next letter
             foundIndex = title.indexOf(letter, foundIndex+1);
-            index++;
-        }//end while
-        
-        // debug purposes to make sure the array has been populated
-        //System.out.println("letter index location(s) "+ Arrays.toString(indexArray));
+            //index++;
+        }//end while(foundIndex >= 0)
+
        
    
         
@@ -217,4 +215,4 @@ public class Game {
     
     
     
-}// end class
+}// end class Game

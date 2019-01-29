@@ -25,8 +25,9 @@ public class PlayerGuesses {
      * @param guess
      * @return 
      */
-    public boolean incorrectGuessList(char guess){
+    public boolean incorrectGuesses(char guess){
         boolean hasGuessed = false;
+        int wrongGuess = incorrectLetters.size();
         // check if the letter is already in the list?
         if (incorrectLetters.contains(guess)) {
             System.out.println("letter already guessed");
@@ -35,36 +36,28 @@ public class PlayerGuesses {
         } else {
             // Build the list
             incorrectLetters.add(guess);
+           
         }
+        System.out.println("You have Guessed (" + (wrongGuess+1) +") wrong letters: " + incorrectLetters ); 
         return hasGuessed;
-    }// end incorrectGuessList()
-    
-    public void correctGuessList(char guess){
- 
+    }// end incorrectGuesses()
+    /**
+     * Keep track of the Correct letters guessed
+     * @param guess 
+     */
+    public void correctGuesses(char guess){
         // check if the letter is already in the list?
         if (correctLetters.contains(guess)) {
-            System.out.println("letter already guessed correctly");
-            // need logic here to return 
-           
+            System.out.println("("+ guess +") already guessed correctly");
         } else {
+            // add to the list
             correctLetters.add(guess);
-            // debug
-            //System.out.println("correct letters = " + correctLetters);
         }// end if 
-    }// end correctGuessList()
+    }// end correctGuesses()
     
     public void blankString(String title){
         correctGuessesString = new StringBuilder(title);
-        System.out.println("blankString = " + correctGuessesString);
-       
-        
-//        for (int i = 0; i < size; i++) {
-//            correctGuessesString.insert(i, "_");
-//            System.out.println("blankString = " + correctGuessesString);
-//            
-//        }
-        
-    }//end
+    }//end blankString
     
     
     
@@ -84,12 +77,33 @@ public class PlayerGuesses {
         // insert the new correct guess
         correctGuessesString.insert(location, value);
         //
-        System.out.println("builder-> " + correctGuessesString);
+        System.out.println("You are guessing " + correctGuessesString);
         //displayTheCorrectTitle();
         // works perfect
         // i need some logic to check for a match
         
     }// end buildTheCorrectTitle
+    
+    
+    public boolean checkIfWin(String correctTitle){
+        boolean playerWins = false;
+        String convert = correctGuessesString.toString();
+        
+        if(correctTitle.equals(convert)){
+
+            playerWins = true;
+            
+        } else {
+
+            playerWins = false;
+        }
+        
+        
+        return playerWins;
+                
+        
+    }// end checkIfWin()
+    
     
 //    public void displayTheCorrectTitle(){
 //        
