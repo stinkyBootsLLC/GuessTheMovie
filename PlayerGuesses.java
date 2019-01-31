@@ -13,7 +13,7 @@ public class PlayerGuesses {
     // in the title
     private final Map<Integer, Character> correctGuessedTitle;//identifier for hashMap
     // build a string out of the correct guessed letters
-    private StringBuilder correctGuessesString;
+    private StringBuilder correctGuessString;
     // constructor
     public PlayerGuesses() {
         incorrectLetters = new ArrayList();
@@ -54,9 +54,14 @@ public class PlayerGuesses {
             correctLetters.add(guess);
         }// end if 
     }// end correctGuesses()
-    
+    /**
+     * Create a blank StringBuilder the same size as the random title selected
+     * This will be used to display to the player when correct letters are guessed
+     * "___-___"
+     * @param title 
+     */
     public void blankString(String title){
-        correctGuessesString = new StringBuilder(title);
+        correctGuessString = new StringBuilder(title);
     }//end blankString
     
     
@@ -72,22 +77,27 @@ public class PlayerGuesses {
         correctGuessedTitle.put(location, value);
         // System.out.println("--> "+correctGuessedTitle);
         // delete the "_" char at the index location
-        correctGuessesString.deleteCharAt(location);
+        correctGuessString.deleteCharAt(location);
         // now that the location is blank
         // insert the new correct guess
-        correctGuessesString.insert(location, value);
+        correctGuessString.insert(location, value);
         //
-        System.out.println("You are guessing " + correctGuessesString);
+        //System.out.println("You are guessing " + correctGuessString);
         //displayTheCorrectTitle();
         // works perfect
         // i need some logic to check for a match
         
     }// end buildTheCorrectTitle
     
-    
+    /**
+     * Logic to check if the player has won the game
+     * Compare the random title to the playing title
+     * @param correctTitle
+     * @return 
+     */
     public boolean checkIfWin(String correctTitle){
         boolean playerWins = false;
-        String convert = correctGuessesString.toString();
+        String convert = correctGuessString.toString();
         
         if(correctTitle.equals(convert)){
 
@@ -103,23 +113,14 @@ public class PlayerGuesses {
                 
         
     }// end checkIfWin()
+
+    @Override
+    public String toString() {
+        //System.out.println("You are guessing " + correctGuessString);
+        return "You are guessing: " + correctGuessString;
+    }
     
     
-//    public void displayTheCorrectTitle(){
-//        
-//        for (char i : correctGuessedTitle.values()) {
-//           // correctGuessesString.append(i);
-//           //System.out.println(correctGuessesString);
-//            
-//        }// end for
-//        
-//        
-//        // Print keys and values
-//        for (int i : correctGuessedTitle.keySet()) {
-//            //System.out.println("key: " + i + " value: " + correctGuessedTitle.get(i));
-//        }
-//        
-//    }// end displayTheCorrectTitle
     
     
     
