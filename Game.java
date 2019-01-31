@@ -58,8 +58,6 @@ public class Game {
         this.handleSpacesTitle = title.replace(" ", "-");
         // use REGEX to replaceAll letters to "_"
         gameDisplayTitle = handleSpacesTitle.replaceAll("[A-Za-z]", "_");
-        // Display the gamePlay movie title "_____-_____"
-        System.out.println("Movie: "+ gameDisplayTitle + "\n");
         // start the game
         gamePlay();
     }// end displayTheGameBoard
@@ -74,6 +72,8 @@ public class Game {
         boolean hasWon = false;
         // pass the "_____-_____" gameDisplayTitle
         playerGuesses.blankString(gameDisplayTitle);
+        // Display the gamePlay movie title "_____-_____"
+        System.out.println(playerGuesses.toString());
         // handle if player still has points left
         if (playerPoints <= 0) {
             System.out.println("game over");
@@ -204,7 +204,7 @@ public class Game {
             //index++;
         }//end while(foundIndex >= 0)
 
-       
+        System.out.println(playerGuesses.toString());
    
         
     }// end findIndexLocations
