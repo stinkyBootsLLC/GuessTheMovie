@@ -23,9 +23,10 @@ public class ReadFile {
     /**
      * Count the number of lines in the external file
      * to use for the size of the array
+     * @throws FileNotFoundException
      * @return integer
      */
-    private int countTheLines(){
+    private int countTheLines() throws FileNotFoundException{
         // to hold the number of lines
         int linenumber = 0;
         try{
@@ -52,9 +53,9 @@ public class ReadFile {
     }// end countTheLines 
     /**
      * read the file and store into array
-     * @throws File Not Found Exception 
+     * @throws java.io.FileNotFoundException
      */
-    public void parseTheFile()throws Exception {
+    public void parseTheFile()throws FileNotFoundException {
         // count the lines in the ext file
         int size = countTheLines();
         // use the number of lines found as the size of the array
