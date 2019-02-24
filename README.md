@@ -29,15 +29,3 @@ Everything you need to know to be able to build this game should be covered in t
 
 Just take it step by step, build a small part of the game first, test it and make sure it works and then continue to add more to it.
 
-You are guessing: ___-_______-__-___-_____
-Guess a letter:
-a
-You are guessing: ___-_______-__-___-_a___
-v
-Try again
-letter already guessed
-You have Guessed (3) wrong letters: [x, v]
-Guess a letter:
-m
-You are guessing: the-silence-of-the-lambs
-You have guessed: the silence of the lambs correctly!
