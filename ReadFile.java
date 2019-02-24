@@ -81,10 +81,9 @@ public class ReadFile {
         } catch (FileNotFoundException error) {
             System.out.println(error);
         }// end try catch
-        
+        // call function
         pickaRandomTitle();
-        
-    }// end parseTheFile
+    }// end parseTheFile()
     
     /**
      * the computer randomly picks a movie title
@@ -95,10 +94,10 @@ public class ReadFile {
         int randIndex = (int) (Math.random() * 25);
         // display the rand element
         randMovietitle = titlesArray[randIndex];
-    }// end pickaRandomTitle
+    }// end pickaRandomTitle()
     
     public String getRandomMovieTitle(){
         return randMovietitle;
-    }// end getRandomMovieTitle
+    }// end getRandomMovieTitle()
 
 }// end class ReadFile

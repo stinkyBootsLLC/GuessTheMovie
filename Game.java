@@ -4,7 +4,7 @@ package guessthetitle;
 import java.util.Scanner;
 
 /**
- * 
+ * This Class will handle the game features and functions
  * @author eduardo
  */
 public class Game {
@@ -33,15 +33,15 @@ public class Game {
         System.out.println("Your goal is to try to figure out the movie by guessing one ");
         System.out.println("letter at a time. You get (10) tries");
         System.out.println("Ready! Begin!\n");
-        
         // call function
         getTheRandomTitle();
     }// end startGame
     
     private void getTheRandomTitle() throws Exception{
+        // create instance of ReadFile
         ReadFile readfile = new ReadFile();
         // call function
-        // start getting the external file informations
+        // start getting the external file information
         readfile.parseTheFile();
         // get the random movie title to play the game
         title = readfile.getRandomMovieTitle();
@@ -142,22 +142,16 @@ public class Game {
      * @return 
      */
     private boolean checkLetter(String title, char letter){
-        // debug
-        //System.out.println(title);
         boolean isMatch = false;
         int indexOfLetter = title.indexOf(letter);// nothng found will return -1
         // the wrong guess
         if (indexOfLetter < 0){
             isMatch = false;
-             
         } else {
-            isMatch = true;
-            // the correct letter has been guessed 
+            isMatch = true; 
         }// end if (indexOfLetter < 0)
         return isMatch;
-    
-    }// end checkLetter
-    
+    }// end checkLetter()
 
     /**
      * I need to know how many times the letter appears in the Movie Title
@@ -180,39 +174,21 @@ public class Game {
     
     /**
      * Finds the index of the guessed letter in the movie title string
-     * and stores into an array
+     * to start building the player guessed movie title
      * @param title - the random movie title
      * @param letter - the guessed letter
      * @param size - of the array (how many times the letter exist is string)
      */
     private void findIndexLocations(String title, char letter, int size){
-        // index need an array to store the indexes
-        // the size is how many times the letter appears in the string
-       
-        //indexArray = new int[size];
-        //int index = 0;
         int foundIndex = title.indexOf(letter);
         while(foundIndex >= 0) {
-            // build the array
-            //indexArray[index] = foundIndex;
             // send the index and the letter to the hashmap
             playerGuesses.buildTheCorrectTitle(foundIndex, letter);
-           
-    
-            // move on to the next letter
+            // move on to the next letter in the title
             foundIndex = title.indexOf(letter, foundIndex+1);
-            //index++;
         }//end while(foundIndex >= 0)
-
+        // display
         System.out.println(playerGuesses.toString());
-   
-        
-    }// end findIndexLocations
-    
-
-    
-    
-    
-    
+    }// end findIndexLocations()
     
 }// end class Game

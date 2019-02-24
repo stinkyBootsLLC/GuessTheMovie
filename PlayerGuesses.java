@@ -36,11 +36,12 @@ public class PlayerGuesses {
         } else {
             // Build the list
             incorrectLetters.add(guess);
-           
         }
+        // display message
         System.out.println("You have Guessed (" + (wrongGuess+1) +") wrong letters: " + incorrectLetters ); 
         return hasGuessed;
     }// end incorrectGuesses()
+    
     /**
      * Keep track of the Correct letters guessed
      * @param guess 
@@ -48,12 +49,14 @@ public class PlayerGuesses {
     public void correctGuesses(char guess){
         // check if the letter is already in the list?
         if (correctLetters.contains(guess)) {
+            // display
             System.out.println("("+ guess +") already guessed correctly");
         } else {
             // add to the list
             correctLetters.add(guess);
         }// end if 
     }// end correctGuesses()
+    
     /**
      * Create a blank StringBuilder the same size as the random title selected
      * This will be used to display to the player when correct letters are guessed
@@ -62,10 +65,14 @@ public class PlayerGuesses {
      */
     public void blankString(String title){
         correctGuessString = new StringBuilder(title);
-    }//end blankString
+    }//end blankString()
     
     
-    
+    /**
+     * Builds the correct/matched movie title
+     * @param location
+     * @param value 
+     */
     public void buildTheCorrectTitle(int location, char value){
         // this is coming from game.java when the user guesses a correct letter 
         // that is in the playing movie title.
@@ -75,19 +82,12 @@ public class PlayerGuesses {
         //  1   5
         // _a___a_
         correctGuessedTitle.put(location, value);
-        // System.out.println("--> "+correctGuessedTitle);
         // delete the "_" char at the index location
         correctGuessString.deleteCharAt(location);
         // now that the location is blank
         // insert the new correct guess
         correctGuessString.insert(location, value);
-        //
-        //System.out.println("You are guessing " + correctGuessString);
-        //displayTheCorrectTitle();
-        // works perfect
-        // i need some logic to check for a match
-        
-    }// end buildTheCorrectTitle
+    }// end buildTheCorrectTitle()
     
     /**
      * Logic to check if the player has won the game
@@ -98,27 +98,22 @@ public class PlayerGuesses {
     public boolean checkIfWin(String correctTitle){
         boolean playerWins = false;
         String convert = correctGuessString.toString();
-        
         if(correctTitle.equals(convert)){
-
             playerWins = true;
-            
         } else {
-
             playerWins = false;
-        }
-        
-        
+        }// end if(correctTitle.equals(convert))
         return playerWins;
-                
-        
     }// end checkIfWin()
 
+    /**
+     * Display the correct guessed string to the terminal
+     * @return 
+     */
     @Override
     public String toString() {
-        //System.out.println("You are guessing " + correctGuessString);
         return "You are guessing: " + correctGuessString;
-    }
+    }// end toString()
     
     
     

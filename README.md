@@ -29,6 +29,4 @@ Everything you need to know to be able to build this game should be covered in t
 
 Just take it step by step, build a small part of the game first, test it and make sure it works and then continue to add more to it.
 
-Aaaand, whenever you reach a roadblock, head to the forum straight away, there are tons of other students and mentors there that will be more than happy to help.
 
-Download the movie list from here, and start coding. Good luck :)
